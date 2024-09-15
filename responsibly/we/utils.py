@@ -76,9 +76,9 @@ def cosine_similarities_by_words(model, word, words):
     assert not isinstance(words, string_types), \
         'The argument `words` should not be a string.'
 
-    vec = model.wv[word]
-    vecs = [model.wv[w] for w in words]
-    return model.wv.cosine_similarities(vec, vecs)
+    vec = model[word]
+    vecs = [model[w] for w in words]
+    return model.cosine_similarities(vec, vecs)
 
 
 def update_word_vector(model, word, new_vector):
@@ -211,7 +211,7 @@ def most_similar(model, positive=None, negative=None,
     
     ### Editted
     limited = (model.wv.get_vector() if restrict_vocab is None
-               else model.wv.get_vector[:restrict_vocab])
+               else model.wv.get_vector([:restrict_vocab]))
     dists = limited @ mean
 
     if topn is None:
