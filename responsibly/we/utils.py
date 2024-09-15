@@ -245,8 +245,8 @@ def get_seed_vector(seed, bias_word_embedding):
         else:
             positive_end, negative_end = seed
 
-        seed_vector = normalize(bias_word_embedding.model.wv[positive_end]
-                                - bias_word_embedding.model.wv[negative_end])
+        seed_vector = normalize(bias_word_embedding.model[positive_end]
+                                - bias_word_embedding.model[negative_end])
 
     return seed_vector, positive_end, negative_end
 
