@@ -11,10 +11,8 @@ from sklearn.metrics import accuracy_score
 from gensim.models import KeyedVectors
 
 WORD_EMBEDDING_MODEL_TYPES = (gensim.models.keyedvectors.KeyedVectors,
-                              # gensim.models.keyedvectors.BaseKeyedVectors,
                               gensim.models.fasttext.FastText,
-                              gensim.models.word2vec.Word2Vec,)
-                              # gensim.models.base_any2vec.BaseWordEmbeddingsModel,)  # pylint: disable=line-too-long
+                              gensim.models.word2vec.Word2Vec)  # pylint: disable=line-too-long
 
 def round_to_extreme(value, digits=2):
     place = 10**digits
@@ -78,16 +76,16 @@ def cosine_similarities_by_words(model, word, words):
     assert not isinstance(words, string_types), \
         'The argument `words` should not be a string.'
 
-    vec = model[word]
-    vecs = [model[w] for w in words]
-    return model.cosine_similarities(vec, vecs)
+    vec = model.wv[word]
+    vecs = [model.wv[w] for w in words]
+    return model.wv.cosine_similarities(vec, vecs)
 
 
 def update_word_vector(model, word, new_vector):
-    model.vectors[model.key_to_index[word]] = new_vector
-    if model.get_vector is not None:
+    model.wv.vectors[model.wv.key_to_index[word]] = new_vector
+    if model.wv.get_vector is not None:
         # model.vectors_norm[model.key_to_index[word]] = normalize(new_vector)
-        model.get_vector(word, norm=True) == normalize(new_vector)
+        model.wv.get_vector(word, norm=True) == normalize(new_vector)
       
 
 
@@ -210,9 +208,11 @@ def most_similar(model, positive=None, negative=None,
 
     if indexer is not None:
         return indexer.most_similar(mean, topn)
-
-    limited = (model.get_vector if restrict_vocab is None
-               else model.get_vector(restrict_vocab))
+    
+    ### Editted
+                   
+    limited = (model.wv.get_vector() if restrict_vocab is None
+               else model.wv.get_vector([:restrict_vocab])
     dists = limited @ mean
 
     if topn is None:
@@ -224,7 +224,7 @@ def most_similar(model, positive=None, negative=None,
 
     # if not unrestricted, then ignore (don't return)
     # words from the input
-    result = [(model.index2word[sim], float(dists[sim]))
+    result = [(model.wv.index_to_key[sim], float(dists[sim])) ### Editted
               for sim in best
               if unrestricted or sim not in all_words]
 
@@ -246,8 +246,8 @@ def get_seed_vector(seed, bias_word_embedding):
         else:
             positive_end, negative_end = seed
 
-        seed_vector = normalize(bias_word_embedding.model[positive_end]
-                                - bias_word_embedding.model[negative_end])
+        seed_vector = normalize(bias_word_embedding.model.wv[positive_end]
+                                - bias_word_embedding.model.wv[negative_end])
 
     return seed_vector, positive_end, negative_end
 
