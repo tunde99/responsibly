@@ -211,7 +211,7 @@ def most_similar(model, positive=None, negative=None,
     
     ### Editted
     limited = (model.wv.get_vector() if restrict_vocab is None
-               else model.wv.get_vector([:restrict_vocab]))
+               else model.wv.get_vector[:restrict_vocab])
     dists = limited @ mean
 
     if topn is None:
