@@ -354,7 +354,7 @@ class BiasWordEmbedding:
             .max(),
             decimals=1)
 
-        sns.barplot(x='projection', y='word', data=projections_df,
+        sns.barplot(x='projection', y='word', hue=y, data=projections_df,
                     palette=projections_df['color'])
 
         plt.xticks(np.arange(-most_extream_projection,
