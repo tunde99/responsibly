@@ -170,7 +170,7 @@ class BiasWordEmbedding:
 
     def __contains__(self, item):
         return item in self.model
-
+    
     def _filter_words_by_model(self, words):
         return [word for word in words if word in self]
 
@@ -421,12 +421,10 @@ class BiasWordEmbedding:
                               if all(word in web
                                      for web in (word_embedding_bias_dict
                                                  .values()))]
-
-        projections = {name:WARNING:gensim.models.keyedvectors:destructive init_sims(replace=True) deprecated & no longer required for space-efficiency
----------------------------------------------------------------------------
-TypeError              web._calc_projection_scores(intersection_words)['projection']  # pylint: disable=C0301
+    
+        projections = {name: web._calc_projection_scores(intersection_words)['projection']  # pylint: disable=C0301
                        for name, web in word_embedding_bias_dict.items()}
-
+                                              
         df = pd.DataFrame(projections)
         df.index = intersection_words
 
