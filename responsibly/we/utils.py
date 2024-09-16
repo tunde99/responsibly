@@ -210,8 +210,8 @@ def most_similar(model, positive=None, negative=None,
         return indexer.most_similar(mean, topn)
     
     ### Editted
-    limited = (model.wv.get_vector() if restrict_vocab is None
-               else model.wv.get_vector(restrict_vocab))
+    limited = (model.get_vector() if restrict_vocab is None
+               else model.get_vector(restrict_vocab))
     dists = limited @ mean
 
     if topn is None:
@@ -223,7 +223,7 @@ def most_similar(model, positive=None, negative=None,
 
     # if not unrestricted, then ignore (don't return)
     # words from the input
-    result = [(model.wv.index_to_key[sim], float(dists[sim])) ### Editted
+    result = [(model.index_to_key[sim], float(dists[sim])) ### Editted
               for sim in best
               if unrestricted or sim not in all_words]
 
