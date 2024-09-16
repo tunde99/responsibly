@@ -353,10 +353,7 @@ class BiasWordEmbedding:
             .abs()
             .max(),
             decimals=1)
-                                   
-        # Convert the 'color' column in projections_df to a list
-        palette = projections_df['color'].tolist()
-                                   
+
         sns.barplot(x='projection', y='word', data=projections_df,
                     palette=projections_df['color'])
 
@@ -425,7 +422,9 @@ class BiasWordEmbedding:
                                      for web in (word_embedding_bias_dict
                                                  .values()))]
 
-        projections = {name: web._calc_projection_scores(intersection_words)['projection']  # pylint: disable=C0301
+        projections = {name:WARNING:gensim.models.keyedvectors:destructive init_sims(replace=True) deprecated & no longer required for space-efficiency
+---------------------------------------------------------------------------
+TypeError              web._calc_projection_scores(intersection_words)['projection']  # pylint: disable=C0301
                        for name, web in word_embedding_bias_dict.items()}
 
         df = pd.DataFrame(projections)
