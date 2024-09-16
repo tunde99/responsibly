@@ -353,7 +353,10 @@ class BiasWordEmbedding:
             .abs()
             .max(),
             decimals=1)
-
+                                   
+        # Convert the 'color' column in projections_df to a list
+        palette = projections_df['color'].tolist()
+                                   
         sns.barplot(x='projection', y='word', data=projections_df,
                     palette=projections_df['color'])
 
