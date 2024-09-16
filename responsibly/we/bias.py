@@ -331,6 +331,9 @@ class BiasWordEmbedding:
 
         self._is_direction_identified()
 
+        # Convert the 'color' column to a list to ensure Seaborn receives the expected data type
+        palette = projections_df['color'].tolist() 
+        
         projections_df = self._calc_projection_scores(words)
         projections_df['projection'] = projections_df['projection'].round(2)
 
