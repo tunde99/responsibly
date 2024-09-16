@@ -223,7 +223,7 @@ def most_similar(model, positive=None, negative=None,
 
     # if not unrestricted, then ignore (don't return)
     # words from the input
-    result = [(model.index_to_key[sim], float(dists[sim])) ### Editted
+    result = [(model.index2word[sim], float(dists[sim])) ### Editted
               for sim in best
               if unrestricted or sim not in all_words]
 
