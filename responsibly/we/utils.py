@@ -83,7 +83,7 @@ def cosine_similarities_by_words(model, word, words):
 
 def update_word_vector(model, word, new_vector):
     model.vectors[model.key_to_index[word]] = new_vector
-    if model.wv.get_vector is not None:
+    if model.wv.get_vector() is not None:
         # model.vectors_norm[model.key_to_index[word]] = normalize(new_vector)
         model.wv.get_vector(word, norm=True) == normalize(new_vector)
       
