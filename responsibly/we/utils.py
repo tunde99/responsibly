@@ -11,8 +11,10 @@ from sklearn.metrics import accuracy_score
 from gensim.models import KeyedVectors
 
 WORD_EMBEDDING_MODEL_TYPES = (gensim.models.keyedvectors.KeyedVectors,
+                              # gensim.models.keyedvectors.BaseKeyedVectors,
                               gensim.models.fasttext.FastText,
-                              gensim.models.word2vec.Word2Vec)  # pylint: disable=line-too-long
+                              gensim.models.word2vec.Word2Vec,)
+                              # gensim.models.base_any2vec.BaseWordEmbeddingsModel,)  # pylint: disable=line-too-long
 
 def round_to_extreme(value, digits=2):
     place = 10**digits
@@ -208,9 +210,8 @@ def most_similar(model, positive=None, negative=None,
 
     if indexer is not None:
         return indexer.most_similar(mean, topn)
-    
-    ### Editted
-    limited = (model.get_vector() if restrict_vocab is None
+
+    limited = (model.get_vector if restrict_vocab is None
                else model.get_vector(restrict_vocab))
     dists = limited @ mean
 
@@ -223,7 +224,7 @@ def most_similar(model, positive=None, negative=None,
 
     # if not unrestricted, then ignore (don't return)
     # words from the input
-    result = [(model.index2word[sim], float(dists[sim])) ### Editted
+    result = [(model.index2word[sim], float(dists[sim]))
               for sim in best
               if unrestricted or sim not in all_words]
 
